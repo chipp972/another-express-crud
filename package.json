@@ -8,6 +8,7 @@
   },
   "main": "./lib/crud.js",
   "scripts": {
+    "prepublish": "npm run build",
     "clean": "rm -rf lib",
     "lint": "eslint src",
     "postlint": "npm run typecheck",
@@ -20,8 +21,7 @@
   },
   "dependencies": {
     "babel-runtime": "6.26.0",
-    "express": "4.16.2",
-    "flow-copy-source": "1.2.1"
+    "express": "4.16.2"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
@@ -44,6 +44,7 @@
     "eslint-plugin-react": "7.5.1",
     "faucet": "0.0.1",
     "flow-bin": "0.63.1",
+    "flow-copy-source": "1.2.1",
     "prettier": "1.10.2",
     "sinon": "4.2.0",
     "supertest": "3.0.0",
@@ -54,6 +55,6 @@
     "type": "git",
     "url": "git+https://github.com/chipp972/node-flow-starter.git"
   },
-  "author": "Nicolas Pierre-charles",
+  "author": "Nicolas Pierre-charles <pierrecharles.nicolas@gmail.com>",
   "license": "MIT"
 }
