@@ -4,6 +4,10 @@ Let you avoid all the boilerplates to create a crud route
 
 ## Installation
 
+```bash
+npm i --save another-express-crud
+```
+
 ## Example usage
 
 ```javascript
