@@ -53,7 +53,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chipp972/node-flow-starter.git"
+    "url": "git+https://github.com/chipp972/another-express-crud.git"
   },
   "author": "Nicolas Pierre-charles <pierrecharles.nicolas@gmail.com>",
   "license": "MIT"
