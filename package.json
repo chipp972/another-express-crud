@@ -1,6 +1,6 @@
 {
   "name": "another-express-crud",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Easily create an express CRUD router",
   "engineStrict": true,
   "engines": {
