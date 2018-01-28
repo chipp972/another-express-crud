@@ -1,6 +1,52 @@
-# EXPRESS CRUD ROUTER
+# another-express-crud
 
 Let you avoid all the boilerplates to create a crud route
+
+## Installation
+
+## Example usage
+
+```javascript
+import express from 'express';
+import { crud } from 'another-express-crud';
+
+const app = express();
+const operations = {
+  create: (params) => ...,
+  read: (params) => ...,
+  update: (params) => ...,
+  delete: (params) => ...,
+}
+
+const crudRoutes = crud({
+  path: '/user',
+  operations,
+  policy: {
+    update: 'owner',
+    delete: 'owner'
+  },
+  hooks: {
+    before: {
+      create: (params) => { success: true },
+    },
+    after: {
+      update: (result, req) => { message: 'update done' },
+    }
+  }
+});
+app.use('/api', crudRoutes);
+```
+
+This resulting app is :
+
+operation | route
+--------- | -----
+create | POST `/api/user`
+read | GET `/api/user`
+read by id | GET `/api/user/:id`
+update | PUT `/api/user/:id`
+update | PATCH `/api/user/:id`
+delete | DELETE `/api/user/:id`
 
 ## Path
 
@@ -110,3 +156,4 @@ Note: if the user object is not undefined, the permission of the request will be
 
 * [ ] More Policy tests
 * [ ] Response formatter tests
+* [ ] Clearer README with more examples
