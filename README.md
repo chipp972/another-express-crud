@@ -15,23 +15,41 @@ import express from 'express';
 import { crud } from 'another-express-crud';
 
 const app = express();
+
+type CrudData = {
+  id?: string,
+  data: any,
+  user?: any,
+  files?: any,
+  fancyParam?: string
+}
+
+const getRequestData = (req) => ({
+  id: req.params.id || (req.body && req.body._id),
+  data: req.body || {},
+  user: req.user,
+  files: req.files,
+  fancyParam: req.fancyParam
+})
+
 const operations = {
-  create: (params) => ...,
-  read: (params) => ...,
-  update: (params) => ...,
-  delete: (params) => ...,
+  create: (params: CrudData) => ...,
+  read: (params: CrudData) => ...,
+  update: (params: CrudData) => ...,
+  delete: (params: CrudData) => ...,
 }
 
 const crudRoutes = crud({
   path: '/user',
   operations,
+  getRequestData,
   policy: {
     update: 'owner',
     delete: 'owner'
   },
   hooks: {
     before: {
-      create: (params) => { success: true },
+      create: (params: CrudData) => { success: true },
     },
     after: {
       update: (result, req) => { message: 'update done' },
@@ -43,14 +61,14 @@ app.use('/api', crudRoutes);
 
 This resulting app is :
 
-operation | route
---------- | -----
-create | POST `/api/user`
-read | GET `/api/user`
-read by id | GET `/api/user/:id`
-update | PUT `/api/user/:id`
-update | PATCH `/api/user/:id`
-delete | DELETE `/api/user/:id`
+| operation  | route                  |
+| ---------- | ---------------------- |
+| create     | POST `/api/user`       |
+| read       | GET `/api/user`        |
+| read by id | GET `/api/user/:id`    |
+| update     | PUT `/api/user/:id`    |
+| update     | PATCH `/api/user/:id`  |
+| delete     | DELETE `/api/user/:id` |
 
 ## Path
 
@@ -74,7 +92,7 @@ const getRequestData: (req: Request) => CrudOptions
 
 Notes:
 No middleware is integrated to parse the body of the requests.
-You  could use for example
+You could use for example
 
 * [body-parser](https://www.npmjs.com/package/body-parser) to get data from json objects and
 * [express-form-data](https://www.npmjs.com/package/express-form-data) to get data from FormData objects
@@ -82,7 +100,7 @@ You  could use for example
 ```javascript
 import formData from 'express-form-data';
 import bodyParser from 'body-parser';
-import express from 'express'
+import express from 'express';
 
 const app = express();
 
@@ -134,14 +152,18 @@ If the result is `undefined` the previous result will be used.
 
 The optional policy object should contain :
 
-property | type | description
--------- | ---- | -----------
-create | string | policy used for create operations
-read | string | policy used for read operations
-update | string | policy used for update operations
-delete | string | policy used for delete operations
-isOwner | `(CrudOptions) => boolean` | function to determine if a user is the owner of the ressource
-isAdmin | `(CrudOptions) => boolean` | function to determine if a user has access to all contents
+| property        | type                       | description                                                                                     |
+| --------------- | -------------------------- | ----------------------------------------------------------------------------------------------- |
+| create          | string                     | policy used for create operations                                                               |
+| read            | string                     | policy used for read operations                                                                 |
+| update          | string                     | policy used for update operations                                                               |
+| delete          | string                     | policy used for delete operations                                                               |
+| isAuthenticated | `(CrudOptions) => boolean` | function to determine if the request is made by an authenticated user                           |
+| isOwner         | `(CrudOptions) => boolean` | function to determine if a user is the owner of the ressource                                   |
+| isAdmin         | `(CrudOptions) => boolean` | function to determine if a user has access to all contents                                      |
+| isDisabled      | boolean                    | disable all policies (if you need to disable policies with an environment variable for example) |
+
+All arguments are optional. Just specify what you need.
 
 You can specify 4 types of policies :
 
@@ -152,9 +174,11 @@ You can specify 4 types of policies :
 
 You can provide `isAuthenticated`, `isOwner` and `isAdmin` functions to customize when the access should be granted.
 
+You can also
+
 By default, all policies are `guest` if no policy is provided.
 
-Note: if the user object is not undefined, the permission of the request will be at least user (see Request data to know how to get user from request)
+Note: By default, if the user object is not undefined, the permission of the request will be at least user (see Request data to know how to get user from request)
 
 ## Todo
 

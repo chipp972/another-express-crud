@@ -1,12 +1,12 @@
 // @flow
 import test from 'tape';
-import express, { Response } from 'express';
+import { Response } from 'express';
 import request from 'supertest';
-import { getOperations, getStore } from './crud.mock';
+import { getOperations, getStore, getApp } from './crud.mock';
 import { crud } from '../src/crud';
 
 // init tests
-const app = express();
+const app = getApp();
 const store = getStore();
 const operations = getOperations(store);
 const crudRoutes = crud({ operations });

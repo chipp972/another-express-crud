@@ -36,11 +36,19 @@ const setRequestData = (getRequestData: RequestDataFunction) => (
   next();
 };
 
-const checkPolicy = (isOwner?: AccessFunction, isAdmin?: AccessFunction) => (
-  policy?: Policy
-) => (req: Request, res: Response, next: NextFunction) => {
-  if (!policy) return next();
-  if (hasPermission(checkAccess(req.crud, isOwner, isAdmin), policy)) {
+const checkPolicy = (
+  isAuthenticated?: AccessFunction,
+  isOwner?: AccessFunction,
+  isAdmin?: AccessFunction,
+  isDisabled?: boolean = false
+) => (policy?: Policy) => (req: Request, res: Response, next: NextFunction) => {
+  if (!policy || isDisabled) return next();
+  if (
+    hasPermission(
+      checkAccess(req.crud, isAuthenticated, isOwner, isAdmin),
+      policy
+    )
+  ) {
     return next();
   }
   return next(new Error('PolicyError'));
@@ -113,7 +121,12 @@ export const generateCrudRoutes: ExpressCrudGenerator = ({
   policy = {}
 }): Router => {
   const router = Router();
-  const policyMw = checkPolicy(policy.isOwner, policy.isAdmin);
+  const policyMw = checkPolicy(
+    policy.isAuthenticated,
+    policy.isOwner,
+    policy.isAdmin,
+    policy.isDisabled
+  );
   const { before = {}, after = {} } = hooks;
 
   router.route('/:id*?');

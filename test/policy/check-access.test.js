@@ -1,6 +1,6 @@
 // @flow
 import test from 'tape';
-import { checkAccess, ACCESS } from '../src/crud.policy';
+import { checkAccess, ACCESS } from '../../src/crud.policy';
 
 test('guest request', (t) => {
   const res = checkAccess({

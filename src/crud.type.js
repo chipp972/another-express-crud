@@ -91,5 +91,6 @@ export type PolicyObject = {
   delete?: Policy,
   isAuthenticated?: AccessFunction,
   isOwner?: AccessFunction,
-  isAdmin?: AccessFunction
+  isAdmin?: AccessFunction,
+  isDisabled?: boolean
 };
