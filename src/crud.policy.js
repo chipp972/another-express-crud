@@ -1,24 +1,24 @@
 // @flow
-import type { CheckAccessParams, AccessFunction, Policy } from './crud.type';
+import type { CheckAccessParams, AccessFunction, Policy } from "./crud.type";
 
 export const ACCESS = {
-  GUEST: 'guest',
-  USER: 'user',
-  OWNER: 'owner',
-  ADMIN: 'admin'
+  GUEST: "guest",
+  USER: "user",
+  OWNER: "owner",
+  ADMIN: "admin"
 };
 
 const defaultIsAuthenticated: AccessFunction = ({
   id,
   data,
   user
-}: CheckAccessParams) => (user && user._id ? user._id !== '' : false);
+}: CheckAccessParams) => (user && user._id ? user._id !== "" : false);
 
 const defaultIsAdmin: AccessFunction = ({
   id,
   data,
   user
-}: CheckAccessParams) => (user ? user.role === 'admin' : false);
+}: CheckAccessParams) => (user ? user.role === "admin" : false);
 
 const defaultIsOwner: AccessFunction = ({
   id,

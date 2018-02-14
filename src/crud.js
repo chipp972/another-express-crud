@@ -1,22 +1,30 @@
 // @flow
-import { Router } from 'express';
-import { generateCrudRoutes } from './crud.route';
-import type {
-  CrudGenOptions as CrudGenOpts,
-  CrudOperations as CrudOps,
-  PolicyObject as PolicyObj,
-  Policy as Pol,
-  HooksObject as HooksObj
-} from './crud.type';
+import { Router } from "express";
+import { generateCrudRoutes } from "./crud.route";
+import type { CrudGenOptions } from "./crud.type";
 
-export type CrudGenOptions = CrudGenOpts;
-export type CrudOperations = CrudOps;
-export type PolicyObject = PolicyObj;
-export type Policy = Pol;
-export type HooksObject = HooksObj;
+export type {
+  CrudGenOptions,
+  CrudOperation,
+  CrudOperations,
+  PolicyObject,
+  Policy,
+  Middleware,
+  RequestDataFunction,
+  CrudOptions,
+  ExpressCrudGenerator,
+  PreResult,
+  HooksObject,
+  CrudBeforeObject,
+  CrudAfterObject,
+  CrudBeforeMiddleware,
+  CrudAfterMiddleware,
+  CheckAccessParams,
+  AccessFunction
+} from "./crud.type";
 
 export const crud = ({
-  path = '/',
+  path = "/",
   operations,
   getRequestData,
   responseFormatter,

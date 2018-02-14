@@ -1,5 +1,5 @@
 // @flow
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response, NextFunction } from "express";
 
 /* Public API */
 
@@ -27,7 +27,7 @@ export type CrudOptions = {
   files?: { [filename: string]: { path: string } }
 };
 
-export type RequestDataFunction = (Request) => CrudOptions;
+export type RequestDataFunction = Request => CrudOptions;
 
 export type Middleware = (Request, Response, NextFunction) => any;
 
@@ -36,7 +36,7 @@ export type PreResult = {
   error?: Error
 };
 
-export type CrudOperation = (CrudOptions) => Promise<any>;
+export type CrudOperation = CrudOptions => Promise<any>;
 
 export type CrudOperations = {
   create: CrudOperation,
@@ -49,7 +49,7 @@ export type CrudOperations = {
 
 export type CrudAfterMiddleware = (result: *, req: Request) => Promise<*>;
 
-export type CrudBeforeMiddleware = (CrudOptions) => Promise<PreResult>;
+export type CrudBeforeMiddleware = CrudOptions => Promise<PreResult>;
 
 export type CrudAfterObject = {
   all?: CrudAfterMiddleware,
@@ -80,9 +80,9 @@ export type CheckAccessParams = {
   user?: { _id: string, role?: string }
 };
 
-export type AccessFunction = (CheckAccessParams) => boolean;
+export type AccessFunction = CheckAccessParams => boolean;
 
-export type Policy = 'guest' | 'user' | 'owner' | 'admin';
+export type Policy = "guest" | "user" | "owner" | "admin";
 
 export type PolicyObject = {
   create?: Policy,

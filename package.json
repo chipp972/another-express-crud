@@ -9,16 +9,22 @@
   "main": "./lib/crud",
   "typings": "./lib/crud",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "clean": "rm -rf lib",
     "lint": "eslint src",
-    "postlint": "npm run typecheck",
+    "format": "prettier --write '{src,test}/**/*.js'",
     "typecheck": "flow check",
-    "pretest": "npm run lint",
+    "pretest": "npm run format && npm run lint && npm run typecheck",
     "test": "npm run test-only | tap-spec",
     "test-only": "tape --require babel-register 'test/**/*.js'",
     "test:watch": "tape-watch --require babel-register 'test/**/*.js' --clear --pipe tap-spec",
+    "prebuild": "npm run format && npm run lint && npm run typecheck",
     "build": "npm run clean && babel src/ -d lib/ && flow-copy-source src/ lib/"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test"
+    }
   },
   "dependencies": {
     "babel-runtime": "6.26.0",
@@ -45,6 +51,7 @@
     "eslint-plugin-react": "7.6.1",
     "flow-bin": "0.65.0",
     "flow-copy-source": "1.3.0",
+    "husky": "0.15.0-rc.6",
     "prettier": "1.10.2",
     "sinon": "4.3.0",
     "supertest": "3.0.0",

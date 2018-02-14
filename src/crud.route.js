@@ -1,6 +1,6 @@
 // @flow
-import { checkAccess, hasPermission } from './crud.policy';
-import { Request, Response, NextFunction, Router } from 'express';
+import { checkAccess, hasPermission } from "./crud.policy";
+import { Request, Response, NextFunction, Router } from "express";
 import type {
   CrudOptions,
   ExpressCrudGenerator,
@@ -10,13 +10,13 @@ import type {
   AccessFunction,
   RequestDataFunction,
   CrudOperation
-} from './crud.type';
+} from "./crud.type";
 
 // format the response
 const defaultResponseFormatter = (req: Request, res: Response): void =>
   res
     .status(res.statusCode || 200)
-    .contentType('application/json')
+    .contentType("application/json")
     .json({ success: res.success ? res.success : true, data: res.data });
 
 // get data from request
@@ -51,7 +51,7 @@ const checkPolicy = (
   ) {
     return next();
   }
-  return next(new Error('PolicyError'));
+  return next(new Error("PolicyError"));
 };
 
 const executeBeforeMiddleware = (before?: CrudBeforeMiddleware) => async (
@@ -76,7 +76,7 @@ const executeOperation = (operation: CrudOperation) => async (
 ) => {
   try {
     const result = await operation(req.crud);
-    if (result === undefined) return next(new Error('NotFound'));
+    if (result === undefined) return next(new Error("NotFound"));
     res.data = result;
     return next();
   } catch (err) {
@@ -129,10 +129,10 @@ export const generateCrudRoutes: ExpressCrudGenerator = ({
   );
   const { before = {}, after = {} } = hooks;
 
-  router.route('/:id*?');
+  router.route("/:id*?");
 
   router
-    .route('/:id*?')
+    .route("/:id*?")
     .all(setRequestData(getRequestData))
 
     .get(policyMw(policy.read))
@@ -143,7 +143,7 @@ export const generateCrudRoutes: ExpressCrudGenerator = ({
     .get(executeAfterMiddleware(after.all));
 
   router
-    .route('/')
+    .route("/")
     .post(policyMw(policy.create))
     .post(executeBeforeMiddleware(before.all))
     .post(executeBeforeMiddleware(before.create))
@@ -153,7 +153,7 @@ export const generateCrudRoutes: ExpressCrudGenerator = ({
     .post(setStatus(201));
 
   router
-    .route('/:id')
+    .route("/:id")
     .put(policyMw(policy.update))
     .put(executeBeforeMiddleware(before.all))
     .put(executeBeforeMiddleware(before.update))
@@ -175,7 +175,7 @@ export const generateCrudRoutes: ExpressCrudGenerator = ({
     .delete(executeAfterMiddleware(after.delete))
     .delete(executeAfterMiddleware(after.all));
 
-  router.use('*', responseFormatter);
+  router.use("*", responseFormatter);
 
   return router;
 };
