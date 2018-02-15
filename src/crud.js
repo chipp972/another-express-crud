@@ -1,7 +1,7 @@
 // @flow
-import { Router } from "express";
-import { generateCrudRoutes } from "./crud.route";
-import type { CrudGenOptions } from "./crud.type";
+import { Router } from 'express';
+import { generateCrudRoutes } from './crud.route';
+import type { CrudGenOptions } from './crud.type';
 
 export type {
   CrudGenOptions,
@@ -20,16 +20,16 @@ export type {
   CrudBeforeMiddleware,
   CrudAfterMiddleware,
   CheckAccessParams,
-  AccessFunction
-} from "./crud.type";
+  AccessFunction,
+} from './crud.type';
 
 export const crud = ({
-  path = "/",
+  path = '/',
   operations,
   getRequestData,
   responseFormatter,
   hooks,
-  policy
+  policy,
 }: CrudGenOptions): Router => {
   const router = Router();
 
@@ -40,7 +40,7 @@ export const crud = ({
       getRequestData,
       responseFormatter,
       hooks,
-      policy
+      policy,
     })
   );
   return router;

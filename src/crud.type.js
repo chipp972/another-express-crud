@@ -1,5 +1,5 @@
 // @flow
-import { Router, Request, Response, NextFunction } from "express";
+import { Router, Request, Response, NextFunction } from 'express';
 
 /* Public API */
 
@@ -9,7 +9,7 @@ export type CrudGenOptions = {
   getRequestData?: RequestDataFunction,
   responseFormatter?: Middleware,
   hooks?: HooksObject,
-  policy?: PolicyObject
+  policy?: PolicyObject,
 };
 
 export type ExpressCrudGenerator = ({
@@ -17,46 +17,46 @@ export type ExpressCrudGenerator = ({
   getRequestData?: RequestDataFunction,
   responseFormatter?: Middleware,
   hooks?: HooksObject,
-  policy?: PolicyObject
+  policy?: PolicyObject,
 }) => Router;
 
 export type CrudOptions = {
   id: string,
   data: any,
   user?: any,
-  files?: { [filename: string]: { path: string } }
+  files?: { [filename: string]: { path: string } },
 };
 
-export type RequestDataFunction = Request => CrudOptions;
+export type RequestDataFunction = (Request) => CrudOptions;
 
 export type Middleware = (Request, Response, NextFunction) => any;
 
 export type PreResult = {
   success: boolean,
-  error?: Error
+  error?: Error,
 };
 
-export type CrudOperation = CrudOptions => Promise<any>;
+export type CrudOperation = (CrudOptions) => Promise<any>;
 
 export type CrudOperations = {
   create: CrudOperation,
   read: CrudOperation,
   update: CrudOperation,
-  delete: CrudOperation
+  delete: CrudOperation,
 };
 
 /* Hooks */
 
 export type CrudAfterMiddleware = (result: *, req: Request) => Promise<*>;
 
-export type CrudBeforeMiddleware = CrudOptions => Promise<PreResult>;
+export type CrudBeforeMiddleware = (CrudOptions) => Promise<PreResult>;
 
 export type CrudAfterObject = {
   all?: CrudAfterMiddleware,
   create?: CrudAfterMiddleware,
   read?: CrudAfterMiddleware,
   update?: CrudAfterMiddleware,
-  delete?: CrudAfterMiddleware
+  delete?: CrudAfterMiddleware,
 };
 
 export type CrudBeforeObject = {
@@ -64,12 +64,12 @@ export type CrudBeforeObject = {
   create?: CrudBeforeMiddleware,
   read?: CrudBeforeMiddleware,
   update?: CrudBeforeMiddleware,
-  delete?: CrudBeforeMiddleware
+  delete?: CrudBeforeMiddleware,
 };
 
 export type HooksObject = {
   before?: CrudBeforeObject,
-  after?: CrudAfterObject
+  after?: CrudAfterObject,
 };
 
 /* Policy */
@@ -77,12 +77,12 @@ export type HooksObject = {
 export type CheckAccessParams = {
   id?: string,
   data: any,
-  user?: { _id: string, role?: string }
+  user?: { _id: string, role?: string },
 };
 
-export type AccessFunction = CheckAccessParams => boolean;
+export type AccessFunction = (CheckAccessParams) => boolean;
 
-export type Policy = "guest" | "user" | "owner" | "admin";
+export type Policy = 'guest' | 'user' | 'owner' | 'admin';
 
 export type PolicyObject = {
   create?: Policy,
@@ -92,5 +92,5 @@ export type PolicyObject = {
   isAuthenticated?: AccessFunction,
   isOwner?: AccessFunction,
   isAdmin?: AccessFunction,
-  isDisabled?: boolean
+  isDisabled?: boolean,
 };

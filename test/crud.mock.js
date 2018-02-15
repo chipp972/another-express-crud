@@ -1,6 +1,6 @@
 // @flow weak
-import express, { Application } from "express";
-import bodyParser from "body-parser";
+import express, { Application } from 'express';
+import bodyParser from 'body-parser';
 
 /* Mocked express app */
 
@@ -17,18 +17,18 @@ type StoreItem = { _id: string, test: string };
 
 type Store = {
   currentId: number,
-  items: StoreItem[]
+  items: StoreItem[],
 };
 
 export const getStore = (): Store => ({
   currentId: 4,
   items: [
-    { _id: "id0", test: "test1" },
-    { _id: "id1", test: "test2" },
-    { _id: "id2", test: "test3" },
-    { _id: "id3", test: "test4" },
-    { _id: "id4", test: "test5" }
-  ]
+    { _id: 'id0', test: 'test1' },
+    { _id: 'id1', test: 'test2' },
+    { _id: 'id2', test: 'test3' },
+    { _id: 'id3', test: 'test4' },
+    { _id: 'id4', test: 'test5' },
+  ],
 });
 
 /* Mocked model operations */
@@ -36,7 +36,7 @@ export const getStore = (): Store => ({
 export const getOperations = (store: Store) => ({
   create: ({ data }: { data: any }) => {
     store.currentId++;
-    const newItem = { _id: "id" + store.currentId, ...data };
+    const newItem = { _id: 'id' + store.currentId, ...data };
     store.items.push(newItem);
     return Promise.resolve(newItem);
   },
@@ -50,14 +50,14 @@ export const getOperations = (store: Store) => ({
       store.items.filter(
         (item: StoreItem) =>
           data
-            ? Object.keys(data).every(prop => data[prop] === item[prop])
+            ? Object.keys(data).every((prop) => data[prop] === item[prop])
             : true
       )
     );
   },
   update: ({ id, data }: { id: string, data: any }) => {
     const item = store.items.find((item: StoreItem) => item._id === id);
-    if (!item) return Promise.reject(new Error("No item found"));
+    if (!item) return Promise.reject(new Error('No item found'));
     const updatedItem = { ...item, ...data };
     store.items = store.items
       .filter((item: StoreItem) => item._id !== id)
@@ -66,8 +66,8 @@ export const getOperations = (store: Store) => ({
   },
   delete: ({ id }) => {
     const item = store.items.find((item: StoreItem) => item._id === id);
-    if (!item) return Promise.reject(new Error("No item found"));
+    if (!item) return Promise.reject(new Error('No item found'));
     store.items = store.items.filter((item: StoreItem) => item._id !== id);
     return Promise.resolve(item);
-  }
+  },
 });

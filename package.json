@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "babel-runtime": "6.26.0",
+    "customizable-error": "0.1.3",
     "express": "4.16.2"
   },
   "devDependencies": {
