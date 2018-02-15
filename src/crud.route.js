@@ -57,7 +57,7 @@ const checkPolicy = (
     customErrorFactory({
       name: 'PolicyError',
       message:
-        `User has ${userPermission} permission` +
+        `Request has ${userPermission} permission` +
         ` while ${policy} permission is required`,
       status: 401,
       code: 'POLICY_ERROR',

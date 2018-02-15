@@ -8,26 +8,26 @@ export const ACCESS = {
   ADMIN: 'admin',
 };
 
-const defaultIsAuthenticated: AccessFunction = ({
-  id,
-  data,
-  user,
-}: CheckAccessParams) => (user && user._id ? user._id !== '' : false);
+const defaultIsAuthenticated: AccessFunction = ({ user }: CheckAccessParams) =>
+  user && user._id ? user._id !== '' : false;
 
-const defaultIsAdmin: AccessFunction = ({
-  id,
-  data,
-  user,
-}: CheckAccessParams) => (user ? user.role === 'admin' : false);
+const defaultIsAdmin: AccessFunction = ({ user }: CheckAccessParams) =>
+  user ? user.role === 'admin' : false;
 
 const defaultIsOwner: AccessFunction = ({
   id,
   data,
   user,
-}: CheckAccessParams) =>
-  user
-    ? user._id === id || data._id === user._id || data.owner === user._id
-    : false;
+}: CheckAccessParams) => {
+  const userId = user ? `${user._id}` : '';
+  const idStr = id ? `${id}` : '';
+  const dataOwner = `${data.owner}`;
+  const dataId = `${data._id}`;
+  if (userId === idStr || dataId === userId || dataOwner === userId) {
+    return true;
+  }
+  return false;
+};
 
 /**
  * check if access right is :
